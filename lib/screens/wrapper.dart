@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 //import 'package:receitas_mmm/screens/home/home.dart';
 import 'package:liv_app/authenticate/authenticate.dart';
 import 'package:liv_app/models/user.dart';
+import 'package:liv_app/screens/account.dart';
 
 
 class Wrapper extends StatelessWidget {
@@ -12,6 +13,8 @@ class Wrapper extends StatelessWidget {
     final user = Provider.of<User>(context);
 
     return Authenticate();
+
+    //return Account();
 
     /*
     if(user == null){

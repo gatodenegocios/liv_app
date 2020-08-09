@@ -8,7 +8,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-const SERVER_IP = 'https://food.api.pliffer.com.br';
+const SERVER_IP = 'http://192.168.0.5:3000';
 
 
 
@@ -25,32 +25,32 @@ class AuthService{
   }
 
 
-  Future<Response> signUpUser(String name, String password, String email, String login) async {
-    print("up");
+  Future<Response> signUpUser(String user,String password) async {print(user);print(password);
     var res = await http.post(
-      "$SERVER_IP/user/signup",
+      "$SERVER_IP/sign-up",
       body: {
-        "email": email,
-        "last_email_check": email,
-        "login": login,
-        "name": name,
+        //"email": email,
+        //"last_email_check": email,
+        "user": user,
         "password": password,
       }
     );
+
+    //print(res.body);
 
     if(res.statusCode == 200) return Response.fromJson(json.decode(res.body));
 
     return null;
   }
 
-  Future<Response> signInUserJWT(String email, String password) async {
+  Future<Response> signInUserJWT(String user, String password) async {
 
-    print("in");
+
 
     var res = await http.post(
-      "$SERVER_IP/user/signin",
+      "$SERVER_IP/sign-in",
       body: {
-        "email": email,
+        "user": user,
         "password": password
       }
     );

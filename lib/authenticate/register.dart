@@ -57,7 +57,7 @@ class _RegisterState extends State<Register> {
                   SizedBox(height: 20.0),
                   TextFormField(
                     decoration: textInputDecoration.copyWith(hintText: "Senha"),
-                    validator : (val) => val.length < 5 ? 'A senha deve ser maior que 3 caracteres.': null,
+                    validator : (val) => val.length < 3  ? 'A senha deve ser maior que 3 caracteres.': null,
                     obscureText: true,
                     controller: _passwordController,
                   ),
@@ -65,14 +65,15 @@ class _RegisterState extends State<Register> {
                   RaisedButton(
                     child:Text("Register"),
                     onPressed: () async {
-                      if(_formKey.currentState.validate()){/*
+                      if(_formKey.currentState.validate()){
                         setState(()=> loading = true);
-                        dynamic result = await _auth.signUpUser(name,login,email,password);
+                        dynamic result = await _auth.signUpUser(_userController.text,_passwordController.text);
 
                         if(result == null){
                           setState(()=> error = "Sem conexão com o servidor!");
                           loading = false;
                         }else{
+
                           if(result.success){
                             setState(()=> error = "Conta criada com sucesso!");
                           }else{
@@ -82,7 +83,7 @@ class _RegisterState extends State<Register> {
                           }
 
                           loading = false;
-                        }*/
+                        }
                       }
                     },
                   ),

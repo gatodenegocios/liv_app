@@ -74,10 +74,11 @@ class _SignInState extends State<SignIn> {
               RaisedButton(
                 child:Text("Login"),
                 onPressed: () async {
-                  if(_formKey.currentState.validate()){/*
+                  if(_formKey.currentState.validate()){
                     setState(()=> loading = true);
 
-                    dynamic result = await _auth.signInUserJWT(email,password);
+                    dynamic result = await _auth.signInUserJWT(_userController.text,_passwordController.text);
+                    
                     if(result==null){
                       setState(()=> error = "Error");
                       loading = false;
@@ -92,7 +93,7 @@ class _SignInState extends State<SignIn> {
                       }
 
                       loading = false;
-                    }*/
+                    }
                   }
                 },
               ),

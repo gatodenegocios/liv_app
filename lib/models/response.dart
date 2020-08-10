@@ -7,7 +7,7 @@ class Response {
   factory Response.fromJson(Map<String, dynamic> json) {
     return Response(
       success: json['success'],
-      message: json['message'],
+      message: json['msg'],
     );
   }
 }

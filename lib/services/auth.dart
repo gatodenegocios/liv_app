@@ -38,9 +38,7 @@ class AuthService{
 
     //print(res.body);
 
-    if(res.statusCode == 200) return Response.fromJson(json.decode(res.body));
-
-    return null;
+    return Response.fromJson(json.decode(res.body));
   }
 
   Future<Response> signInUserJWT(String user, String password) async {
@@ -54,12 +52,14 @@ class AuthService{
         "password": password
       }
     );
+    //print(res.body)
+    //print(res.body);
 
-    print(res.body);
+    return Response.fromJson(json.decode(res.body));
 
-    if(res.statusCode == 200) return Response.fromJson(json.decode(res.body));
+//    if(res.statusCode == 200) return Response.fromJson(json.decode(res.body));
 
-    return null;
+    //return null;
   }
 
   void storeJwt(String token) async {

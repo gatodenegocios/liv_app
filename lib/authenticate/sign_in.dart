@@ -78,17 +78,15 @@ class _SignInState extends State<SignIn> {
                     setState(()=> loading = true);
 
                     dynamic result = await _auth.signInUserJWT(_userController.text,_passwordController.text);
-                    
+
                     if(result==null){
-                      setState(()=> error = "Error");
+                      setState(()=> error = "Erro desconhecido!");
                       loading = false;
                     }else{
                       if(result.success){
                         setState(()=> error = "Vamos Lá!");
                         _auth.storeJwt(result.message);
                       }else{
-                        print(result.success);
-                        print(result.message);
                         setState(()=> error = result.message);
                       }
 

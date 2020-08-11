@@ -24,11 +24,11 @@ class AuthService{
   //  return _user;//_auth.onAuthStateChanged.map(_userFromFirebaseUser);
   //}
 
-  User GetUser(){
+  User getUser(){
     return _user;
   }
 
-  Future<User> SetUser (String jwt) async {
+  Future<User> setUser (String jwt) async {
     if(jwt == null)
       return null;
 
@@ -39,7 +39,7 @@ class AuthService{
   }
 
 
-  Future<Response> signUpUser(String user,String password) async {print(user);print(password);
+  Future<Response> signUpUser(String user,String password) async {
     var res = await http.post(
       "$SERVER_IP/sign-up",
       body: {
@@ -57,7 +57,7 @@ class AuthService{
 
   Future<Response> signInUserJWT(String user, String password) async {
 
-
+    try{
 
     var res = await http.post(
       "$SERVER_IP/sign-in",
@@ -66,10 +66,15 @@ class AuthService{
         "password": password
       }
     );
+
+    return Response.fromJson(json.decode(res.body));
+    
+    }catch(e) {
+     return null;
+    }
     //print(res.body)
     //print(res.body);
 
-    return Response.fromJson(json.decode(res.body));
 
 //    if(res.statusCode == 200) return Response.fromJson(json.decode(res.body));
 

@@ -83,7 +83,7 @@ class _SignInState extends State<SignIn> {
                     dynamic result = await _auth.signInUserJWT(_userController.text,_passwordController.text);
 
                     if(result==null){
-                      setState(()=> error = "Erro desconhecido!");
+                      setState(()=> error = "Sem conexão com o servidor!");
                       setState(()=> loading = false);
                     }else{
                       if(result.success){

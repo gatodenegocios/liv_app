@@ -32,7 +32,7 @@ class _WrapperState extends State<Wrapper> {
   }
 
   void setUser  (String message) async{
-    dynamic user = _auth.SetUser(message);
+    dynamic user = _auth.setUser(message);
 
     setAuthenticated(await user!=null);
   }
@@ -51,10 +51,8 @@ class _WrapperState extends State<Wrapper> {
     
     if(authenticated){
       //return Account();
-      return Provider<AuthService>.value(    
-        value: _auth,
-        child: Account(),
-      );
+
+        return  Account(user : _auth.getUser());
     }else{
       //return Authenticate();
       //return Provider<_WrapperState>.value(

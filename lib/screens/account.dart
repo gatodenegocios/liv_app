@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:liv_app/models/user.dart';
 import 'package:liv_app/screens/app_drawer.dart';
 import 'package:liv_app/screens/transfer_history.dart';
 import 'package:liv_app/screens/contact_tile.dart';
 import 'package:liv_app/screens/transfer_screen.dart';
 
 import 'package:liv_app/models/transfer.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class Account extends StatefulWidget {
+
+  final User user;
+
+  Account({this.user});
+
   @override
   _AccountState createState() => _AccountState();
 }
 
 class _AccountState extends State<Account> {
 
-  Card topArea() => Card(
+  String _salutation;
+  String _value;
+
+  MoneyMaskedTextController moneyController = new MoneyMaskedTextController(leftSymbol: 'R\$ ');
+
+
+  Card topArea(String money) => Card(
     margin: EdgeInsets.all(10.0),
     elevation: 1.0,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(50.0))),
+      borderRadius: BorderRadius.all(Radius.circular(1.0))),
       child: Container(
         decoration: BoxDecoration(
           /*gradient: RadialGradient(
@@ -27,41 +40,29 @@ class _AccountState extends State<Account> {
         ),
         padding: EdgeInsets.all(5.0),
         // color: Color(0xFF015FFF),
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Column(
               children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {},
+                Center(
+                  child: Text("Saldo:",
+                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                    textAlign: TextAlign.center,
+                    ),
                 ),
-                Text("Savings",
-                style: TextStyle(color: Colors.white, fontSize: 20.0)),
-                IconButton(
-                  icon: Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white,
+                SizedBox(
+                  height: 10.0,
+                ),
+                Center(
+                  child: Text(money,
+                    style: TextStyle(color: Colors.white, fontSize: 24.0)
                   ),
-                  onPressed: () {},
-                )
+                ),
+                
               ],
-            ),
-            Center(
-              child: Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Text(r"$ " "95,940.00",
-                  style: TextStyle(color: Colors.white, fontSize: 24.0)
-                ),
-              ),
-            ),
-            SizedBox(height: 35.0),
-          ],
+          )
         )
-      ),
+      )
   );
 
   Container accountItems( String item, String charge, String dateString, String type,
@@ -122,7 +123,19 @@ class _AccountState extends State<Account> {
   }
 
   @override
+  void initState(){
+    super.initState();
+    _salutation = "Bem vindo, "+ widget.user.user + "!";
+    //_value = moneyController.updateValue(widget.user.value);
+    moneyController.updateValue(widget.user.value);
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+    //String salutation = "Bem vindo, "+ widget.user.user + "!";
+    //String value = "Bem vindo, "+ widget.user.user + "!";
+
     return Scaffold(
       drawer: AppDrawer(),
       appBar: AppBar(
@@ -132,7 +145,7 @@ class _AccountState extends State<Account> {
         backgroundColor: Colors.white,
         elevation: 0.0,
         title: Text(
-          "Accounts",
+          _salutation,
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -150,7 +163,7 @@ class _AccountState extends State<Account> {
         color: Colors.white,
         child: Column(
           children: <Widget>[
-            topArea(),
+            topArea(moneyController.text),
             SizedBox(
                 height: 40.0,
                 child: Icon(

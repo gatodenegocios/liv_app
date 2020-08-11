@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:liv_app/services/auth.dart';
 import 'package:liv_app/shared/loading.dart';
 import 'package:liv_app/shared/constants.dart';
+import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
 
   final Function toggleView;
+  final Function setUser;
 
-  SignIn({this.toggleView});
+  SignIn({this.toggleView, this.setUser});
 
   @override
   _SignInState createState() => _SignInState();
@@ -31,6 +33,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+
     return loading? Loading():Scaffold(
       appBar: AppBar(
         title: Text("Loggin"),
@@ -81,16 +84,20 @@ class _SignInState extends State<SignIn> {
 
                     if(result==null){
                       setState(()=> error = "Erro desconhecido!");
-                      loading = false;
+                      setState(()=> loading = false);
                     }else{
                       if(result.success){
                         setState(()=> error = "Vamos Lá!");
-                        _auth.storeJwt(result.message);
+                        //_auth.storeJwt(result.message);
+                        //_WrapperState wr = Provider.of<_WrapperState>(context);
+
+                        widget.setUser(result.message);
+
                       }else{
                         setState(()=> error = result.message);
                       }
 
-                      loading = false;
+                      setState(()=> loading = false);
                     }
                   }
                 },

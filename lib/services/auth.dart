@@ -15,13 +15,27 @@ const SERVER_IP = 'http://192.168.0.5:3000';
 class AuthService{
   final storage = new FlutterSecureStorage();
 
-  final _user = null;
+  User _user = null;
 
 
   //aith change user stream
 
-  Stream<User> get user{
-    return _user;//_auth.onAuthStateChanged.map(_userFromFirebaseUser);
+  //Stream<User> get user{
+  //  return _user;//_auth.onAuthStateChanged.map(_userFromFirebaseUser);
+  //}
+
+  User GetUser(){
+    return _user;
+  }
+
+  Future<User> SetUser (String jwt) async {
+    if(jwt == null)
+      return null;
+
+    _user = User.fromMap(parseJwtPayLoad(jwt),jwt);
+
+    return await _user;
+
   }
 
 
@@ -63,10 +77,17 @@ class AuthService{
   }
 
   void storeJwt(String token) async {
+    print(_user);
 
     await storage.write(key: 'jwt', value: token);//,jwt['name'],jwt['email'],token
 
-    //String value = await storage.read(key: 'jwt');
+    String value = await storage.read(key: 'jwt');
+
+    //setState(()=> _user = User.fromMap(parseJwtPayLoad(value))) ;
+
+    //setState(() {
+    
+    //});
 
     //var jwt = parseJwt(token);
     //print(value);
@@ -74,39 +95,54 @@ class AuthService{
 
   }
 
-  Map<String, String> parseJwt(String token) {
-    final parts = token.split('.');
-    if (parts.length != 3) {
-      throw Exception('invalid token');
-    }
-
-    final payload = _decodeBase64(parts[1]);print(payload);
-    final payloadMap = json.decode(payload);
-    if (payloadMap is! Map<String, String>) {
-      throw Exception('invalid payload');
-    }
-
-    return payloadMap;
+Map<String, dynamic> parseJwtPayLoad(String token) {
+  final parts = token.split('.');
+  if (parts.length != 3) {
+    throw Exception('invalid token');
   }
 
-  String _decodeBase64(String str) {
-    String output = str.replaceAll('-', '+').replaceAll('_', '/');
-
-    switch (output.length % 4) {
-      case 0:
-        break;
-      case 2:
-        output += '==';
-        break;
-      case 3:
-        output += '=';
-        break;
-      default:
-        throw Exception('Illegal base64url string!"');
-    }
-
-    return utf8.decode(base64Url.decode(output));
+  final payload = _decodeBase64(parts[1]);
+  final payloadMap = json.decode(payload);
+  if (payloadMap is! Map<String, dynamic>) {
+    throw Exception('invalid payload');
   }
+
+  return payloadMap;
+}
+
+Map<String, dynamic> parseJwtHeader(String token) {
+  final parts = token.split('.');
+  if (parts.length != 3) {
+    throw Exception('invalid token');
+  }
+
+  final payload = _decodeBase64(parts[0]);
+  final payloadMap = json.decode(payload);
+  if (payloadMap is! Map<String, dynamic>) {
+    throw Exception('invalid payload');
+  }
+
+  return payloadMap;
+}
+
+String _decodeBase64(String str) {
+  String output = str.replaceAll('-', '+').replaceAll('_', '/');
+
+  switch (output.length % 4) {
+    case 0:
+      break;
+    case 2:
+      output += '==';
+      break;
+    case 3:
+      output += '=';
+      break;
+    default:
+      throw Exception('Illegal base64url string!"');
+  }
+
+  return utf8.decode(base64Url.decode(output));
+}
 
 
 }

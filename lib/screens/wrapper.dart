@@ -4,24 +4,64 @@ import 'package:provider/provider.dart';
 import 'package:liv_app/authenticate/authenticate.dart';
 import 'package:liv_app/models/user.dart';
 import 'package:liv_app/screens/account.dart';
+import 'package:liv_app/services/auth.dart';
 
 
-class Wrapper extends StatelessWidget {
+class Wrapper extends StatefulWidget {
+
+  //final Function toggleView;
+
+  //SignIn({this.toggleView});
+
+  @override
+  _WrapperState createState() => _WrapperState();
+}
+
+
+class _WrapperState extends State<Wrapper> {
+
+  AuthService _auth = AuthService();  
+  bool authenticated = false;
+
+  //void toggleView(){
+  //  setState(() => showSignIn = !showSignIn);
+  //}
+
+  void setAuthenticated(bool b){
+    setState(() => authenticated = b);
+  }
+
+  void setUser  (String message) async{
+    dynamic user = _auth.SetUser(message);
+
+    setAuthenticated(await user!=null);
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
-    final user = Provider.of<User>(context);
+    
 
-    return Authenticate();
+
+    //return Authenticate();
 
     //return Account();
 
-    /*
-    if(user == null){
-      return Authenticate();
+    
+    if(authenticated){
+      //return Account();
+      return Provider<AuthService>.value(    
+        value: _auth,
+        child: Account(),
+      );
     }else{
-      return Home();
+      //return Authenticate();
+      //return Provider<_WrapperState>.value(
+      //  value: this,
+      return Authenticate(setUser : setUser);
+      //);
     }
-    */
+    
   }
 }

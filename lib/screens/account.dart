@@ -139,7 +139,9 @@ class _AccountState extends State<Account> {
 
     _salutation = "Bem vindo, "+ _auth.localUser.user + "!";
 
-    moneyController.updateValue(_auth.localUser.value);
+    //setState((){
+      moneyController.updateValue(_auth.localUser.value);
+    //});
 
     //String salutation = "Bem vindo, "+ widget.user.user + "!";
     //String value = "Bem vindo, "+ widget.user.user + "!";

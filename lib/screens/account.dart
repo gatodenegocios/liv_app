@@ -4,9 +4,11 @@ import 'package:liv_app/screens/app_drawer.dart';
 import 'package:liv_app/screens/transfer_history.dart';
 import 'package:liv_app/screens/contact_tile.dart';
 import 'package:liv_app/screens/transfer_screen.dart';
+import 'package:liv_app/services/auth.dart';
 
 import 'package:liv_app/models/transfer.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:provider/provider.dart';
 
 class Account extends StatefulWidget {
 
@@ -125,13 +127,19 @@ class _AccountState extends State<Account> {
   @override
   void initState(){
     super.initState();
-    _salutation = "Bem vindo, "+ widget.user.user + "!";
+    //_salutation = "Bem vindo, "+ widget.user.user + "!";
     //_value = moneyController.updateValue(widget.user.value);
     moneyController.updateValue(widget.user.value);
   }
 
   @override
   Widget build(BuildContext context) {
+
+    AuthService _auth = Provider.of<AuthService>(context);
+
+    _salutation = "Bem vindo, "+ _auth.localUser.user + "!";
+
+    moneyController.updateValue(_auth.localUser.value);
 
     //String salutation = "Bem vindo, "+ widget.user.user + "!";
     //String value = "Bem vindo, "+ widget.user.user + "!";

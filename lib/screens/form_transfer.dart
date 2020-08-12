@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
+import 'package:liv_app/screens/transfer_confirm.dart';
+
 class FormTransfer extends StatefulWidget {
   @override
   FormTransferState createState() {
@@ -25,8 +27,13 @@ class FormTransferState extends State<FormTransfer> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _controller;
+  double _money = 0;
 
   //String _money = "";
+
+  void _openConfirmScreen(String u, double v) {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TransferConfirm(userTo: u,value :v)));
+  }
 
   @override
   void initState() {
@@ -59,24 +66,28 @@ class FormTransferState extends State<FormTransfer> {
 	            ),
 	          	TextFormField(
 	          		controller: moneyController,
-	                //validator : (val) => val.isEmpty  ? 'Apenas transferencias de valores positivos são permitidas': null,
+	                validator : (val) => _money <= 0  ? 'Insira um valor valido!': null,
 
 	            	decoration: const InputDecoration(
 					    icon: Icon(Icons.attach_money),
 					    labelText: 'Valor:',
 					),
+
+					onChanged: (val){
+                  		_money = moneyController.numberValue;
+                	},
 					keyboardType: TextInputType.number,
 	          	),
 	          	SizedBox(
 	              height: 30.0,
 	            ),
 	          	RaisedButton(
-				  onPressed: () async {
+				  onPressed: (){
 				    if (_formKey.currentState.validate()) {
-				    	print(moneyController.numberValue);
+				    	_openConfirmScreen(_controller.text,moneyController.numberValue);
 				  	}
 				  },
-				  child: Text('Tranferir'),
+				  child: Text('Transferir'),
 				),
 	        ]
 	     )

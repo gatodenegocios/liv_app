@@ -20,7 +20,7 @@ class Wrapper extends StatefulWidget {
 
 class _WrapperState extends State<Wrapper> {
 
-  AuthService _auth = AuthService();  
+  AuthService _auth;
   bool authenticated = false;
 
   //void toggleView(){
@@ -37,10 +37,13 @@ class _WrapperState extends State<Wrapper> {
     setAuthenticated(await user!=null);
   }
 
+  
+
 
   @override
   Widget build(BuildContext context) {
 
+    _auth = Provider.of<AuthService>(context);
     
 
 
@@ -51,8 +54,12 @@ class _WrapperState extends State<Wrapper> {
     
     if(authenticated){
       //return Account();
+      //return Provider<AuthService>.value(
+      //  value: _auth,
+      //  child: Account(user : _auth.getUser()),
+      //);
 
-        return  Account(user : _auth.getUser());
+      return Account(user : _auth.getUser());
     }else{
       //return Authenticate();
       //return Provider<_WrapperState>.value(

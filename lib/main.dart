@@ -18,8 +18,11 @@ class MyApp extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return Provider(
+      create: (_) => AuthService(),
+      child: MaterialApp(
         home: Wrapper(),
+      ),
     );
   }
 

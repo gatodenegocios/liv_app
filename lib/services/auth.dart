@@ -15,7 +15,7 @@ const SERVER_IP = 'http://192.168.0.5:3000';
 class AuthService{
   final storage = new FlutterSecureStorage();
 
-  User _user = null;
+  User localUser = null;
 
 
   //aith change user stream
@@ -25,16 +25,16 @@ class AuthService{
   //}
 
   User getUser(){
-    return _user;
+    return localUser;
   }
 
   Future<User> setUser (String jwt) async {
     if(jwt == null)
       return null;
 
-    _user = User.fromMap(parseJwtPayLoad(jwt),jwt);
+    localUser = User.fromMap(parseJwtPayLoad(jwt),jwt);
 
-    return await _user;
+    return await localUser;
 
   }
 
@@ -59,15 +59,15 @@ class AuthService{
 
     try{
 
-    var res = await http.post(
-      "$SERVER_IP/sign-in",
-      body: {
-        "user": user,
-        "password": password
-      }
-    );
+      var res = await http.post(
+        "$SERVER_IP/sign-in",
+        body: {
+          "user": user,
+          "password": password
+        }
+      );
 
-    return Response.fromJson(json.decode(res.body));
+      return Response.fromJson(json.decode(res.body));
     
     }catch(e) {
      return null;
@@ -81,8 +81,59 @@ class AuthService{
     //return null;
   }
 
+  Future<Response> transfer( String userTo, double value, String password) async {
+
+    try{
+
+      var res = await http.post(
+        "$SERVER_IP/transfer",
+        body: {
+          "userFrom": getUser().user,
+          "userTo": userTo,
+          "value": value.toString(),
+
+          "password": password
+        }
+      );
+
+      return Response.fromJson(json.decode(res.body));
+    
+    }catch(e) {
+      print(e);
+     return null;
+    }
+
+  }
+
+  Future<Response> updateValue() async {
+
+    try{
+
+      var res = await http.post(
+        "$SERVER_IP/updateValue",
+        body: {
+          "user": getUser().user,
+        }
+      );
+
+      Response response = Response.fromJson(json.decode(res.body));
+
+      if(response.success){
+        localUser.value = double.parse(response.message);
+      }
+
+      return null;
+    
+    }catch(e) {
+     return null;
+    }
+
+  }
+
+
+
+
   void storeJwt(String token) async {
-    print(_user);
 
     await storage.write(key: 'jwt', value: token);//,jwt['name'],jwt['email'],token
 

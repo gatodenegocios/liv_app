@@ -19,6 +19,8 @@ class ContactTile extends StatefulWidget {
 	  _odd = oddColour;
     _updateAll = updateFunction;
   }
+
+  
 }
 
 class _ContactTileState extends State<ContactTile> {

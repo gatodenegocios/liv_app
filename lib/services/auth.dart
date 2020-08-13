@@ -138,6 +138,28 @@ class AuthService{
 
   }
 
+  Future<Response> updateTransactions() async { print("vamo tenta");
+
+  print("enviando");
+    try{
+
+      var res = await http.post(
+        "$SERVER_IP/updateTransactions",
+        headers: {HttpHeaders.authorizationHeader: getUser().jwt},
+        body: {
+          "user": getUser().user,
+        }
+      );
+
+      return Response.fromJson(json.decode(res.body));
+    
+    }catch(e) {
+      print(e);
+     return null;
+    }
+
+  }
+
 
 
 

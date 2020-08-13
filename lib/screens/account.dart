@@ -27,6 +27,8 @@ class _AccountState extends State<Account> {
   String _value;
   AuthService _auth;
 
+  List<Transfer> TransferTileList = List();
+
   MoneyMaskedTextController moneyController = new MoneyMaskedTextController(leftSymbol: 'R\$ ');
 
 
@@ -69,58 +71,22 @@ class _AccountState extends State<Account> {
       )
   );
 
-  Container accountItems( String item, String charge, String dateString, String type,
-   {Color oddColour = Colors.white}) => Container(
-      decoration: BoxDecoration(color: oddColour),
-      padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5.0, right: 5.0),
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(item, style: TextStyle(fontSize: 16.0)),
-                Text(charge, style: TextStyle(fontSize: 16.0))
-              ],
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(dateString,
-                    style: TextStyle(color: Colors.grey, fontSize: 14.0)),
-                Text(type, style: TextStyle(color: Colors.grey, fontSize: 14.0))
-              ],
-            ),
-          ],
-    ),
-  );
+  _addContactTile(List<dynamic> json){//
+    setState((){
+      for(int i = 0; i < json.length; i++){
+        TransferTileList.add(
+          Transfer.fromMap(json[i])
+        );
+      }
 
+      for(int i = 0; i < json.length; i++){
+        //print(TransferTileList[i].value);
+        //print(i);
+      }
+    });
 
-
-
-
-  displayAccoutList(){
-    return Container(
-      margin: EdgeInsets.all(15.0),
-      child: Column(
-        children: <Widget>[
-          accountItems("Trevello App", r"+ $ 4,946.00", "28-04-16", "credit",
-              oddColour: const Color(0xFFF7F7F9)),
-          accountItems(
-              "Creative Studios", r"+ $ 5,428.00", "26-04-16", "credit"),
-          accountItems("Amazon EU", r"+ $ 746.00", "25-04-216", "Payment",
-              oddColour: const Color(0xFFF7F7F9)),
-          accountItems(
-              "Creative Studios", r"+ $ 14,526.00", "16-04-16", "Payment"),
-          accountItems(
-              "Book Hub Society", r"+ $ 2,876.00", "04-04-16", "Credit",
-              oddColour: const Color(0xFFF7F7F9)),
-        ],
-      ),
-    );
   }
+
 
   void _openTransferScreen() {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FormTransfer( functionUpdate: _updateAll) ));
@@ -128,6 +94,7 @@ class _AccountState extends State<Account> {
 
   void _updateAll(){
     _updateMoneyCounter();
+    _updateTransactions();
   }
 
   void _updateMoneyCounter() async {
@@ -151,6 +118,30 @@ class _AccountState extends State<Account> {
     
   }
 
+  void _updateTransactions() async {
+    dynamic response = await _auth.updateTransactions();
+
+    if(await response != null){
+      if(await response.success){print("puts, deu true");
+//        widget.user.updateFromMap(response.message);
+        setState((){
+          TransferTileList.clear();
+        });
+        //for(int i = 0; i < response.message.length; i++){
+          _addContactTile(response.message);
+        //}
+      }else{
+        print("puts, deu false");
+      }
+
+      
+      
+    }else{ print("deu ruim");}
+
+    //requisição 
+    
+  }
+
   @override
   void initState(){
     super.initState();
@@ -160,6 +151,8 @@ class _AccountState extends State<Account> {
     setState((){
       moneyController.updateValue(widget.user.value);
     });
+
+    _updateAll();
   }
 
   @override
@@ -211,27 +204,16 @@ class _AccountState extends State<Account> {
                   onPressed: () => _updateAll(),
                 ),
             ),
-            Expanded(child: ListView(
-              children:[
-                ContactTile(Transfer(user:"Julho",value: 500.00,date: "25/25/25",type: "Entrada"),true,_updateAll),
-                ContactTile(Transfer(user:"Agostor",value: 500.00,date: "25/25/25",type: "Saida"),false,_updateAll),
-                ContactTile(Transfer(user:"Semprtem",value: 500.00,date: "25/25/25",type: "Entrada"),true,_updateAll),
-                ContactTile(Transfer(user:"POutp",value: 500.00,date: "25/25/25",type: "Saida"),false,_updateAll),
-                ContactTile(Transfer(user:"Julho",value: 500.00,date: "25/25/25",type: "Entrada"),true,_updateAll),
-                ContactTile(Transfer(user:"Agostor",value: 500.00,date: "25/25/25",type: "Saida"),false,_updateAll),
-                ContactTile(Transfer(user:"Semprtem",value: 500.00,date: "25/25/25",type: "Entrada"),true,_updateAll),
-                ContactTile(Transfer(user:"POutp",value: 500.00,date: "25/25/25",type: "Saida"),false,_updateAll),
-              ]
+            Expanded(child: ListView.builder(
+              itemCount: TransferTileList.length,
+              itemBuilder: (BuildContext ctxt, int Index) {
+                  return ContactTile(TransferTileList[Index],Index % 2 ==0, _updateAll);
+              },
+              ),
+              /*TransferTileList[index]
+              
+              ),*/
             ),
-            ),/*
-            ListView(
-              children:[
-                ContactTile(Transfer(user:"Julho",value: 500.00,date: "25/25/25",type: "Entrada"),true),
-                ContactTile(Transfer(user:"Agostor",value: 500.00,date: "25/25/25",type: "Saida"),false),
-                ContactTile(Transfer(user:"Semprtem",value: 500.00,date: "25/25/25",type: "Entrada"),true),
-                ContactTile(Transfer(user:"POutp",value: 500.00,date: "25/25/25",type: "Saida"),true),
-              ]
-            ),*/
 
           ],
         ),

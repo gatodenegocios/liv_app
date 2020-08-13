@@ -13,9 +13,12 @@ class TransferConfirm extends StatefulWidget {
 
   String _userTo;
   double _value;
-  TransferConfirm({String userTo = "", double value}){
+  Function _updateAll;
+  TransferConfirm({String userTo = "", double value, Function updateFunction}){
   	_userTo = userTo;
   	_value = value;
+
+  	_updateAll = updateFunction;
   }
 
 }
@@ -74,7 +77,8 @@ class TransferConfirmState extends State<TransferConfirm> {
           			]
           		),
 				width: 50,
-				height:50,
+				height:150,
+				margin: const EdgeInsets.all(10.0),
           	),
 
           actions: <Widget>[
@@ -147,7 +151,7 @@ class TransferConfirmState extends State<TransferConfirm> {
 		                     	stateTransaction = result.message;
 		                     	loading = false;
 		                     });
-					  		  _auth.updateValue();
+					  		  widget._updateAll();
 					  		}
 					  	}
 					  },

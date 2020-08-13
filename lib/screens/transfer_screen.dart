@@ -6,9 +6,11 @@ class TransferScreen extends StatefulWidget {
   _TransferScreenState createState() => _TransferScreenState();
 
   String _user;
+  Function _updateAll;
 
-  TransferScreen({String user = ""}){
+  TransferScreen({String user = "", Function functionUpdate}){
     _user = user;
+    _updateAll = functionUpdate;
   }
 }
 

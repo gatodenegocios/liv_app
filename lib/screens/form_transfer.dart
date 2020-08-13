@@ -10,8 +10,10 @@ class FormTransfer extends StatefulWidget {
   }
 
   String _user;
-  FormTransfer({String user = ""}){
+  Function _updateAll;
+  FormTransfer({String user = "", Function functionUpdate}){
   	_user = user;
+  	_updateAll = functionUpdate;
   }
 
 }
@@ -32,7 +34,7 @@ class FormTransferState extends State<FormTransfer> {
   //String _money = "";
 
   void _openConfirmScreen(String u, double v) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TransferConfirm(userTo: u,value :v)));
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TransferConfirm(userTo: u,value :v, updateFunction: widget._updateAll)));
   }
 
   @override
@@ -45,7 +47,20 @@ class FormTransferState extends State<FormTransfer> {
   Widget build(BuildContext context) {
   	var moneyController = new MoneyMaskedTextController(leftSymbol: 'R\$ ');
     // Build a Form widget using the _formKey created above.
-    return Container(
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.blue, //change your color here
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        title: Text(
+          "Nova transferencia",
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+		),
+      body: Container(
     	child: Form(
 	      key: _formKey,
 	      child: Column(
@@ -93,7 +108,11 @@ class FormTransferState extends State<FormTransfer> {
 	     )
 	    ),
     	margin: const EdgeInsets.all(10.0),
+       ),
     );
+
+
+    
 
     
   }

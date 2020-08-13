@@ -5,6 +5,7 @@ import 'package:liv_app/screens/transfer_history.dart';
 import 'package:liv_app/screens/contact_tile.dart';
 import 'package:liv_app/screens/transfer_screen.dart';
 import 'package:liv_app/services/auth.dart';
+import 'package:liv_app/screens/form_transfer.dart';
 
 import 'package:liv_app/models/transfer.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -24,6 +25,7 @@ class _AccountState extends State<Account> {
 
   String _salutation;
   String _value;
+  AuthService _auth;
 
   MoneyMaskedTextController moneyController = new MoneyMaskedTextController(leftSymbol: 'R\$ ');
 
@@ -121,7 +123,32 @@ class _AccountState extends State<Account> {
   }
 
   void _openTransferScreen() {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TransferScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FormTransfer( functionUpdate: _updateAll) ));
+  }
+
+  void _updateAll(){
+    _updateMoneyCounter();
+  }
+
+  void _updateMoneyCounter() async {
+    dynamic response = await _auth.updateValue();
+
+    if(await response != null){
+      if(await response.success){print("puts, deu true");
+        widget.user.updateFromMap(response.message);
+        print(widget.user.value);
+      }else{
+        print("puts, deu false");
+      }
+
+      
+      setState((){
+        moneyController.updateValue(widget.user.value);
+      });//  
+    }else{ print("deu ruim");}
+
+    //requisição 
+    
   }
 
   @override
@@ -129,19 +156,22 @@ class _AccountState extends State<Account> {
     super.initState();
     //_salutation = "Bem vindo, "+ widget.user.user + "!";
     //_value = moneyController.updateValue(widget.user.value);
-    moneyController.updateValue(widget.user.value);
+    //_value = widget.user.value;
+    setState((){
+      moneyController.updateValue(widget.user.value);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
 
-    AuthService _auth = Provider.of<AuthService>(context);
+    _auth = Provider.of<AuthService>(context);
 
     _salutation = "Bem vindo, "+ _auth.localUser.user + "!";
 
-    //setState((){
+    setState((){
       moneyController.updateValue(_auth.localUser.value);
-    //});
+    });
 
     //String salutation = "Bem vindo, "+ widget.user.user + "!";
     //String value = "Bem vindo, "+ widget.user.user + "!";
@@ -165,7 +195,6 @@ class _AccountState extends State<Account> {
               Icons.search,
               color: Colors.blue,
             ),
-            onPressed: () {},
           )
         ],
       ),
@@ -176,22 +205,22 @@ class _AccountState extends State<Account> {
             topArea(moneyController.text),
             SizedBox(
                 height: 40.0,
-                child: Icon(
-                  Icons.refresh,
-                  size: 35.0,
-                  color: Color(0xFF015FFF),
+                child:  IconButton(
+                  icon: Icon(Icons.refresh),
+                  color: Colors.blue,
+                  onPressed: () => _updateAll(),
                 ),
             ),
             Expanded(child: ListView(
               children:[
-                ContactTile(Transfer(user:"Julho",value: 500.00,date: "25/25/25",type: "Entrada"),true),
-                ContactTile(Transfer(user:"Agostor",value: 500.00,date: "25/25/25",type: "Saida"),false),
-                ContactTile(Transfer(user:"Semprtem",value: 500.00,date: "25/25/25",type: "Entrada"),true),
-                ContactTile(Transfer(user:"POutp",value: 500.00,date: "25/25/25",type: "Saida"),false),
-                ContactTile(Transfer(user:"Julho",value: 500.00,date: "25/25/25",type: "Entrada"),true),
-                ContactTile(Transfer(user:"Agostor",value: 500.00,date: "25/25/25",type: "Saida"),false),
-                ContactTile(Transfer(user:"Semprtem",value: 500.00,date: "25/25/25",type: "Entrada"),true),
-                ContactTile(Transfer(user:"POutp",value: 500.00,date: "25/25/25",type: "Saida"),false),
+                ContactTile(Transfer(user:"Julho",value: 500.00,date: "25/25/25",type: "Entrada"),true,_updateAll),
+                ContactTile(Transfer(user:"Agostor",value: 500.00,date: "25/25/25",type: "Saida"),false,_updateAll),
+                ContactTile(Transfer(user:"Semprtem",value: 500.00,date: "25/25/25",type: "Entrada"),true,_updateAll),
+                ContactTile(Transfer(user:"POutp",value: 500.00,date: "25/25/25",type: "Saida"),false,_updateAll),
+                ContactTile(Transfer(user:"Julho",value: 500.00,date: "25/25/25",type: "Entrada"),true,_updateAll),
+                ContactTile(Transfer(user:"Agostor",value: 500.00,date: "25/25/25",type: "Saida"),false,_updateAll),
+                ContactTile(Transfer(user:"Semprtem",value: 500.00,date: "25/25/25",type: "Entrada"),true,_updateAll),
+                ContactTile(Transfer(user:"POutp",value: 500.00,date: "25/25/25",type: "Saida"),false,_updateAll),
               ]
             ),
             ),/*

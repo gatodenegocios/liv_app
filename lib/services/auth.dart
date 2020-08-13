@@ -4,7 +4,7 @@ import 'package:liv_app/models/response.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -105,26 +105,34 @@ class AuthService{
 
   }
 
-  Future<Response> updateValue() async {
+  Future<Response> updateValue() async { print("vamo tenta");
 
+  print("enviando");
     try{
 
       var res = await http.post(
         "$SERVER_IP/updateValue",
+        headers: {HttpHeaders.authorizationHeader: getUser().jwt},
         body: {
           "user": getUser().user,
         }
       );
+      /*
+      print("enviado");
 
       Response response = Response.fromJson(json.decode(res.body));
 
-      if(response.success){
-        localUser.value = double.parse(response.message);
-      }
+      print("enviei");
 
-      return null;
+      if(response.success){print("deu boia");
+        localUser.value = double.parse(response.message);
+      }else{ print("deu ruim");}
+      */
+
+      return Response.fromJson(json.decode(res.body));
     
     }catch(e) {
+      print(e);
      return null;
     }
 

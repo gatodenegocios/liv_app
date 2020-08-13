@@ -15,4 +15,8 @@ class User{
       jwt: jwt,
     );
   }
+
+  void updateFromMap(Map<String, dynamic> json){
+    value = double.parse(json['value']);
+  }
 }

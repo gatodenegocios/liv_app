@@ -1,6 +1,7 @@
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:liv_app/screens/transfer_screen.dart';
+import 'package:liv_app/screens/form_transfer.dart';
 
 import 'package:liv_app/models/transfer.dart';
 
@@ -11,10 +12,12 @@ class ContactTile extends StatefulWidget {
   Transfer _transfer;
 
   bool _odd;
+  Function _updateAll;
 
-  ContactTile(Transfer transfer, bool oddColour){
+  ContactTile(Transfer transfer, bool oddColour, Function updateFunction){
   	_transfer = transfer;
-	_odd = oddColour;
+	  _odd = oddColour;
+    _updateAll = updateFunction;
   }
 }
 
@@ -53,7 +56,7 @@ class _ContactTileState extends State<ContactTile> {
 
   void _openTransferScreen(String _user) {
   		print(_user + "uaa");
-    	Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TransferScreen( user: _user) ));
+    	Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FormTransfer( user: _user, functionUpdate: widget._updateAll) ));
   }
 
 

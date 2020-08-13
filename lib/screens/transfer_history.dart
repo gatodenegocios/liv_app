@@ -44,10 +44,10 @@ class _TransferHistoryState extends State<TransferHistory> {
       body: Container(
       	child: ListView(
         		children: <Widget>[
-        			ContactTile(Transfer(user:"Julho",value: 500.00,date: "25/25/25",type: "Entrada"),true),
-        			ContactTile(Transfer(user:"Agostor",value: 500.00,date: "25/25/25",type: "Saida"),false),
-        			ContactTile(Transfer(user:"Semprtem",value: 500.00,date: "25/25/25",type: "Entrada"),true),
-        			ContactTile(Transfer(user:"POutp",value: 500.00,date: "25/25/25",type: "Saida"),true),
+        		//	ContactTile(Transfer(user:"Julho",value: 500.00,date: "25/25/25",type: "Entrada"),true),
+        		//	ContactTile(Transfer(user:"Agostor",value: 500.00,date: "25/25/25",type: "Saida"),false),
+        		//	ContactTile(Transfer(user:"Semprtem",value: 500.00,date: "25/25/25",type: "Entrada"),true),
+        		//	ContactTile(Transfer(user:"POutp",value: 500.00,date: "25/25/25",type: "Saida"),true),
         		],
         	),
       	margin: const EdgeInsets.all(10.0),

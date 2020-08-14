@@ -13,10 +13,12 @@ import 'package:provider/provider.dart';
 
 class Account extends StatefulWidget {
 
-  final User user;
+  //final User user;
 
-  Account({this.user});
 
+  final Function logout;
+
+  Account({this.logout});
   @override
   _AccountState createState() => _AccountState();
 }
@@ -27,13 +29,15 @@ class _AccountState extends State<Account> {
   String _value;
   AuthService _auth;
 
+  bool hasUpdate = false;
+
   List<Transfer> TransferTileList = List();
 
   MoneyMaskedTextController moneyController = new MoneyMaskedTextController(leftSymbol: 'R\$ ');
 
 
   Card topArea(String money) => Card(
-    margin: EdgeInsets.all(10.0),
+    margin: EdgeInsets.symmetric(vertical: 10.0),
     elevation: 1.0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(1.0))),
@@ -44,10 +48,10 @@ class _AccountState extends State<Account> {
           )*/
           color: Colors.green[900],
         ),
-        padding: EdgeInsets.all(5.0),
+        padding: EdgeInsets.symmetric(vertical: 5.0),
         // color: Color(0xFF015FFF),
         child: Padding(
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
               children: <Widget>[
                 Center(
@@ -97,16 +101,16 @@ class _AccountState extends State<Account> {
     dynamic response = await _auth.updateValue();
 
     if(await response != null){
-      if(await response.success){print("puts, deu true");
-        widget.user.updateFromMap(response.message);
-        print(widget.user.value);
+      if(await response.success){
+        _auth.localUser.updateFromMap(response.message);
+        //print(widget.user.value);
       }else{
         print("puts, deu false");
       }
 
       
       setState((){
-        moneyController.updateValue(widget.user.value);
+        moneyController.updateValue(_auth.localUser.value);
       });//  
     }else{ print("deu ruim");}
 
@@ -116,6 +120,7 @@ class _AccountState extends State<Account> {
 
   void _updateTransactions() async {
     dynamic response = await _auth.updateTransactions();
+    hasUpdate = true;
 
     if(await response != null){
       if(await response.success){print("puts, deu true");
@@ -138,17 +143,32 @@ class _AccountState extends State<Account> {
     
   }
 
+  Widget _getTransactionsList(){
+    if(!hasUpdate){
+      return Center( child: Text("Atualize para ver o histórico de transações!"));
+    }else if(TransferTileList.length >= 1){
+      return ListView.builder(
+              itemCount: TransferTileList.length,
+              itemBuilder: (BuildContext ctxt, int Index) {
+                  return ContactTile(TransferTileList[Index],Index % 2 ==0, _updateAll);
+              });
+    }else{
+      return Center( child: Text("Você ainda não fez nenhuma transação!"));
+    }
+  }
+
   @override
   void initState(){
     super.initState();
+
     //_salutation = "Bem vindo, "+ widget.user.user + "!";
     //_value = moneyController.updateValue(widget.user.value);
     //_value = widget.user.value;
-    setState((){
-      moneyController.updateValue(widget.user.value);
-    });
+    //setState((){
+    //  moneyController.updateValue(widget.user.value);
+    //});
 
-    _updateAll();
+    //_updateAll();
   }
 
   @override
@@ -166,7 +186,7 @@ class _AccountState extends State<Account> {
     //String value = "Bem vindo, "+ widget.user.user + "!";
 
     return Scaffold(
-      drawer: AppDrawer(),
+      drawer: AppDrawer(logout:widget.logout),
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.blue, //change your color here
@@ -194,21 +214,15 @@ class _AccountState extends State<Account> {
             topArea(moneyController.text),
             SizedBox(
                 height: 40.0,
-                child:  IconButton(
+                child:  FlatButton.icon(
                   icon: Icon(Icons.refresh),
+                  label: Text("Atualizar"),
                   color: Colors.blue,
                   onPressed: () => _updateAll(),
                 ),
             ),
-            Expanded(child: ListView.builder(
-              itemCount: TransferTileList.length,
-              itemBuilder: (BuildContext ctxt, int Index) {
-                  return ContactTile(TransferTileList[Index],Index % 2 ==0, _updateAll);
-              },
-              ),
-              /*TransferTileList[index]
-              
-              ),*/
+            SizedBox(height:10),
+            Expanded(child: _getTransactionsList(),
             ),
 
           ],

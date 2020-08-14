@@ -27,14 +27,21 @@ class _WrapperState extends State<Wrapper> {
   //  setState(() => showSignIn = !showSignIn);
   //}
 
-  void setAuthenticated(bool b){
-    setState(() => authenticated = b);
-  }
+  //void setAuthenticated(bool b){
+  //  setState(() => authenticated = b);
+  //}
 
   void setUser  (String message) async{
-    dynamic user = _auth.setUser(message);
+    setState((){
+      dynamic user = _auth.setUser(message);
+    });
+  //  setAuthenticated(await user!=null);
+  }
 
-    setAuthenticated(await user!=null);
+  void logout(){
+    setState((){
+      _auth.localUser = null;
+    });
   }
 
   
@@ -52,14 +59,14 @@ class _WrapperState extends State<Wrapper> {
     //return Account();
 
     
-    if(authenticated){
+    if(_auth.localUser != null){
       //return Account();
       //return Provider<AuthService>.value(
       //  value: _auth,
       //  child: Account(user : _auth.getUser()),
       //);
 
-      return Account(user : _auth.getUser());
+      return Account(logout:logout);
     }else{
       //return Authenticate();
       //return Provider<_WrapperState>.value(

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatefulWidget {
+  final Function logout;
+
+  AppDrawer({this.logout});
+  
+
   @override
   _AppDrawerState createState() => _AppDrawerState();
 }
@@ -30,28 +35,22 @@ class _AppDrawerState extends State<AppDrawer> {
                 color: Colors.black,
               ),
             ),
-            buildMenuItem(Icons.account_balance, "ACCOUNTS",
+            buildMenuItem(Icons.exit_to_app, "SAIR DA CONTA", widget.logout,
                 opacity: 1.0, color: Color(0xFF015FFF)),
             Divider(),
-            buildMenuItem(Icons.compare_arrows, "TRANSFER"),
-            Divider(),
-            buildMenuItem(Icons.receipt, "STATEMENTS"),
-            Divider(),
-            buildMenuItem(Icons.attach_money, "PAYMENTS"),
-            Divider(),
-            buildMenuItem(Icons.sentiment_satisfied, "INVESTMENTS"),
-            Divider(),
-            buildMenuItem(Icons.phone, "SUPPORT"),
-            Divider()
           ],
         ),
       ),
     );
   }
 
-  Opacity buildMenuItem(IconData icon, String title,
+  GestureDetector buildMenuItem(IconData icon, String title, Function f,
       {double opacity = 0.3, Color color = Colors.black}) {
-    return Opacity(
+    return GestureDetector(
+      onTap: (){
+          f();
+        },
+        child: Opacity(
       opacity: opacity,
       child: Center(
         child: Column(
@@ -76,6 +75,9 @@ class _AppDrawerState extends State<AppDrawer> {
           ],
         ),
       ),
+    ),
     );
+
+    
   }
 }

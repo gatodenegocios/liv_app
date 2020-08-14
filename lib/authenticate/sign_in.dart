@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:liv_app/services/auth.dart';
 import 'package:liv_app/shared/loading.dart';
 import 'package:liv_app/shared/constants.dart';
+import 'package:liv_app/screens/configs.dart';
 import 'package:provider/provider.dart';
+
+import 'package:liv_app/services/auth.dart';
 
 class SignIn extends StatefulWidget {
 
@@ -17,7 +20,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
 
-  final AuthService _auth = AuthService();
+  AuthService _auth;
   final _formKey = GlobalKey<FormState>();
 
 
@@ -31,19 +34,23 @@ class _SignInState extends State<SignIn> {
 
   String error = "";
 
+  _openConfigScreen(){
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Configs()));
+  }
+
   @override
   Widget build(BuildContext context) {
 
+    _auth = Provider.of<AuthService>(context);
+
     return loading? Loading():Scaffold(
       appBar: AppBar(
-        title: Text("Loggin"),
+        title: Text("Login"),
         actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text("Register"),
-            onPressed: (){
-              widget.toggleView();
-            }
+          IconButton(
+            icon: Icon(Icons.settings),
+            color: Colors.white,
+            onPressed: () => _openConfigScreen(),
           ),
         ],
       ),
@@ -52,6 +59,8 @@ class _SignInState extends State<SignIn> {
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 20.0),
               TextFormField(
@@ -109,6 +118,14 @@ class _SignInState extends State<SignIn> {
                     color: Colors.red,
                     fontSize:14.0
                 ),
+              ),
+              SizedBox(height: 20.0),
+              FlatButton.icon(
+                icon: Icon(Icons.person),
+                label: Text("Criar conta"),
+                onPressed: (){
+                 widget.toggleView();
+                }
               ),
             ],
           )

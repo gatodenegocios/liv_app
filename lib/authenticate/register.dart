@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:liv_app/services/auth.dart';
 import 'package:liv_app/shared/loading.dart';
 import 'package:liv_app/shared/constants.dart';
+import 'package:liv_app/screens/configs.dart';
+import 'package:provider/provider.dart';
+
+
 
 class Register extends StatefulWidget {
 
@@ -15,7 +19,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
 
-  final AuthService _auth = AuthService();
+  AuthService _auth;
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _userController = new TextEditingController();
@@ -23,22 +27,29 @@ class _RegisterState extends State<Register> {
 
   bool loading = false;
 
-
-
   String error = "";
+
+
+  _openConfigScreen(){
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Configs()));
+  }
 
   @override
   Widget build(BuildContext context) {
+    _auth = Provider.of<AuthService>(context);
+
+
+    bool loading = false;
+
+    
     return loading? Loading() : Scaffold(
       appBar: AppBar(
         title: Text("Register"),
         actions: <Widget>[
-          FlatButton.icon(
-              icon: Icon(Icons.person),
-              label: Text("Login"),
-              onPressed: (){
-                widget.toggleView();
-              }
+          IconButton(
+            icon: Icon(Icons.settings),
+            color: Colors.white,
+            onPressed: () => _openConfigScreen(),
           ),
         ],
       ),
@@ -47,6 +58,8 @@ class _RegisterState extends State<Register> {
           child: Form(
               key: _formKey,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: 20.0),
                   TextFormField(
@@ -94,6 +107,14 @@ class _RegisterState extends State<Register> {
                         color: Colors.red,
                         fontSize:14.0
                     ),
+                  ),
+                  SizedBox(height: 20.0),
+                  FlatButton.icon(
+                    icon: Icon(Icons.person),
+                    label: Text("Login"),
+                    onPressed: (){
+                      widget.toggleView();
+                    }
                   ),
                 ],
               )

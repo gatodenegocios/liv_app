@@ -79,10 +79,6 @@ class _AccountState extends State<Account> {
         );
       }
 
-      for(int i = 0; i < json.length; i++){
-        //print(TransferTileList[i].value);
-        //print(i);
-      }
     });
 
   }

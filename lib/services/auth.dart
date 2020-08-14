@@ -8,7 +8,6 @@ import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-const SERVER_IP = 'http://192.168.0.5:3000';
 
 
 
@@ -17,6 +16,9 @@ class AuthService{
 
   User localUser = null;
 
+  String HttpString = "http://";
+  String SERVER_IP = '192.168.0.5';
+  String Port = ":3000";
 
   //aith change user stream
 
@@ -38,21 +40,63 @@ class AuthService{
 
   }
 
+  void SetIp(String ip){
+    SERVER_IP = ip;
+  }
+
+  Future<Response> testConection(String ipTest) async {
+
+
+    //print("$HttpString$ipTest$Port/test-conection");
+    try{
+      var res = await http.post(
+        "$HttpString$ipTest$Port/test-conection",
+        body: {
+          "test":"test"
+        }
+      );
+      print("$HttpString$SERVER_IP$Port/test-conection");
+      print("fejoada");
+      print(res.body);
+
+      Response response = Response.fromJson(json.decode(res.body));
+      print(response);
+
+
+      print(await response);
+
+      if(response.success){
+        SetIp(ipTest);
+      }
+
+      return response;
+
+
+    }catch(e){
+        return null;
+    }
+  }
+
 
   Future<Response> signUpUser(String user,String password) async {
-    var res = await http.post(
-      "$SERVER_IP/sign-up",
-      body: {
-        //"email": email,
-        //"last_email_check": email,
-        "user": user,
-        "password": password,
-      }
-    );
+    try{
+      var res = await http.post(
+        "$HttpString$SERVER_IP$Port/sign-up",
+        body: {
+          //"email": email,
+          //"last_email_check": email,
+          "user": user,
+          "password": password,
+        }
+      );
+      return Response.fromJson(json.decode(res.body));
+    }catch(e){
+        return null;
+    }
 
     //print(res.body);
 
-    return Response.fromJson(json.decode(res.body));
+    
   }
 
   Future<Response> signInUserJWT(String user, String password) async {
@@ -60,7 +104,7 @@ class AuthService{
     try{
 
       var res = await http.post(
-        "$SERVER_IP/sign-in",
+        "$HttpString$SERVER_IP$Port/sign-in",
         body: {
           "user": user,
           "password": password
@@ -86,7 +130,7 @@ class AuthService{
     try{
 
       var res = await http.post(
-        "$SERVER_IP/transfer",
+        "$HttpString$SERVER_IP$Port/transfer",
         body: {
           "userFrom": getUser().user,
           "userTo": userTo,
@@ -111,7 +155,7 @@ class AuthService{
     try{
 
       var res = await http.post(
-        "$SERVER_IP/updateValue",
+        "$HttpString$SERVER_IP$Port/updateValue",
         headers: {HttpHeaders.authorizationHeader: getUser().jwt},
         body: {
           "user": getUser().user,
@@ -144,7 +188,7 @@ class AuthService{
     try{
 
       var res = await http.post(
-        "$SERVER_IP/updateTransactions",
+        "$HttpString$SERVER_IP$Port/updateTransactions",
         headers: {HttpHeaders.authorizationHeader: getUser().jwt},
         body: {
           "user": getUser().user,

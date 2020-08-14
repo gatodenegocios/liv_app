@@ -38,7 +38,7 @@ class _AccountState extends State<Account> {
 
   Card topArea(String money) => Card(
     margin: EdgeInsets.symmetric(vertical: 10.0),
-    elevation: 1.0,
+    elevation: 5.0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(1.0))),
       child: Container(
@@ -198,14 +198,6 @@ class _AccountState extends State<Account> {
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.search,
-              color: Colors.blue,
-            ),
-          )
-        ],
       ),
       body: Container(
         color: Colors.white,
@@ -215,8 +207,8 @@ class _AccountState extends State<Account> {
             SizedBox(
                 height: 40.0,
                 child:  FlatButton.icon(
-                  icon: Icon(Icons.refresh),
-                  label: Text("Atualizar"),
+                  icon: Icon(Icons.refresh,color: Colors.white),
+                  label: Text("Atualizar", style: TextStyle(color: Colors.white),),
                   color: Colors.blue,
                   onPressed: () => _updateAll(),
                 ),

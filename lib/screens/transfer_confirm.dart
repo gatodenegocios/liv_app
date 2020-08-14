@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:liv_app/services/auth.dart';
 import 'package:provider/provider.dart';
+import 'package:liv_app/shared/constants.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -39,7 +40,7 @@ class TransferConfirmState extends State<TransferConfirm> {
 
   bool correct = false;
 
-  String stateTransaction = "Aguarde...";
+  String stateTransaction = "Aguarde";
 
   Widget _stateTransactionIcon(){
   	if(loading){
@@ -48,13 +49,13 @@ class TransferConfirmState extends State<TransferConfirm> {
   		return Icon(
 	      Icons.done,
 	      color: Colors.green,
-	      size: 30.0,
+	      size: 70.0,
 	      );
   	}else{
   		return Icon(
 	      Icons.clear,
 	      color: Colors.red,
-	      size: 30.0,
+	      size: 70.0,
 	      );
   	}
   }
@@ -66,20 +67,8 @@ class TransferConfirmState extends State<TransferConfirm> {
        builder: (BuildContext context) {
         // retorna um objeto do tipo Dialog
         return AlertDialog(
-          title: Text("Aguarde"),
-          content: Container(
-          		child:Column(
-          			children:[
-          			_stateTransactionIcon(),
-					Center(
-						child: Text(stateTransaction)
-					),
-          			]
-          		),
-				width: 50,
-				height:150,
-				margin: const EdgeInsets.all(10.0),
-          	),
+          title: Text(stateTransaction),
+          content: _stateTransactionIcon(),
 
           actions: <Widget>[
             // define os botões na base do dialogo
@@ -125,37 +114,79 @@ class TransferConfirmState extends State<TransferConfirm> {
 		      key: _formKey,
 		      child: Column(
 		        children: <Widget>[
-		        	Text("De"),
-		        	Text(userFrom),
-		        	Text("Para"),
-		        	Text(widget._userTo),
-		        	Text(moneyController.text),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text("De:", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold))
+              ),
+              SizedBox(height:10),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  child:Text(userFrom, style: TextStyle(fontSize: 20.0)),
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                ),
+              ),
+              SizedBox(height:20),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Para:", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold))
+              ),
+              SizedBox(height:10),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  child:Text(widget._userTo, style: TextStyle(fontSize: 20.0)),
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                ),
+              ),
+              SizedBox(height:20),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Valor:", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold))
+              ),
+              SizedBox(height:10),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  child:Text(moneyController.text, style: TextStyle(fontSize: 20.0)),
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                ),
+              ),
+              SizedBox(height:20),
+		        	Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Confirme sua senha:", style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold))
+              ),
+              SizedBox(height:20),
 		        	TextFormField(
 		                controller:_passwordController,
 		                validator : (val) => val.length < 3 ? 'A senha deve ser maior que 3 caracteres.': null,
 		                obscureText: true,
+                    decoration: textInputDecoration.copyWith(hintText: "Senha"),
 		            ),
-		          	RaisedButton(
-					  onPressed: () async {
-					    if (_formKey.currentState.validate()) {
-					    	setState(()=> loading = true);
-					    	dynamic result = await _auth.transfer(widget._userTo,moneyController.numberValue,_passwordController.text);
+              SizedBox(height:20),
+		          RaisedButton(
+					     onPressed: () async {
+					       if (_formKey.currentState.validate()) {
+					    	    setState(()=> loading = true);
+					    	    dynamic result = await _auth.transfer(widget._userTo,moneyController.numberValue,_passwordController.text);
 
-					    	_exibirDialogo();
-		                    if (result==null){
-		                      setState(()=> stateTransaction = "Sem conexão com o servidor!");
-		                      setState(()=> loading = false);
-		                    }else{
-		                     setState((){
-		                     	correct =result.success;
-		                     	stateTransaction = result.message;
-		                     	loading = false;
-		                     });
-					  		  widget._updateAll();
-					  		}
+					    	    _exibirDialogo();
+		                if (result==null){
+		                  setState(()=> stateTransaction = "Sem conexão com o servidor!");
+		                  setState(()=> loading = false);
+		                }else{
+		                  setState((){
+		                 	correct =result.success;
+		                 	stateTransaction = result.message;
+		                 	loading = false;
+		                });
+
+					  		    widget._updateAll();
+					  		 }
 					  	}
 					  },
-					  child: Text('Confirma'),
+					  child: Text('Confirmar'),
 					),
 		        ]
 		     )

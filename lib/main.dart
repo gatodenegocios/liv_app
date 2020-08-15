@@ -19,6 +19,10 @@ class MyApp extends StatelessWidget{
     return Provider(
       create: (_) => AuthService(),
       child: MaterialApp(
+        theme: ThemeData(
+          primaryColor: Colors.blue,
+          scaffoldBackgroundColor: Colors.blue[50],
+        ),
         debugShowCheckedModeBanner: false,
         home: Wrapper(),
       ),

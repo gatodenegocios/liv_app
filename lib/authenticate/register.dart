@@ -55,69 +55,89 @@ class _RegisterState extends State<Register> {
       ),
       body: Container(
           padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 50.0),
+          color: Colors.blue[50],
           child: Form(
               key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: 20.0),
-                  TextFormField(
-                    decoration: textInputDecoration.copyWith(hintText: "User"),
-                    validator : (val) => val.isEmpty ? 'Usuario em branco': null,
-                    controller: _userController,
-                  ),
-                  SizedBox(height: 20.0),
-                  TextFormField(
-                    decoration: textInputDecoration.copyWith(hintText: "Senha"),
-                    validator : (val) => val.length < 3  ? 'A senha deve ser maior que 3 caracteres.': null,
-                    obscureText: true,
-                    controller: _passwordController,
-                  ),
-                  SizedBox(height: 20.0),
-                  RaisedButton(
-                    child:Text("Register"),
-                    onPressed: () async {
-                      if(_formKey.currentState.validate()){
-                        setState(()=> loading = true);
-                        dynamic result = await _auth.signUpUser(_userController.text,_passwordController.text);
+              child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                     SizedBox(height: 50),
+                      Container(
+                        width: 150.0,
+                        height: 150.0,
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child:Image.asset('assets/img/logo.png', width: 50, height: 50.0),
+                      ),
+                      SizedBox(height: 75.0),
+                      
+                      TextFormField(
+                        decoration: textInputDecoration.copyWith(hintText: "User"),
+                        validator : (val) => val.isEmpty ? 'Usuario em branco': null,
+                        controller: _userController,
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        decoration: textInputDecoration.copyWith(hintText: "Senha"),
+                        validator : (val) => val.length < 3  ? 'A senha deve ser maior que 3 caracteres.': null,
+                        obscureText: true,
+                        controller: _passwordController,
+                      ),
+                      SizedBox(height: 50.0),
+                      Container(
+                        width: 100.0,
+                        height: 50.0,
+                        child: RaisedButton(
+                        child:Text("Register"),
+                        onPressed: () async {
+                          if(_formKey.currentState.validate()){
+                            setState(()=> loading = true);
+                            dynamic result = await _auth.signUpUser(_userController.text,_passwordController.text);
 
-                        if(result == null){
-                          setState(()=> error = "Sem conexão com o servidor!");
-                          loading = false;
-                        }else{
+                            if(result == null){
+                              setState(()=> error = "Sem conexão com o servidor!");
+                              loading = false;
+                            }else{
 
-                          if(result.success){
-                            setState(()=> error = "Conta criada com sucesso!");
-                          }else{
-                            print(result.success);
-                            print(result.message);
-                            setState(()=> error = result.message);
+                              if(result.success){
+                                setState(()=> error = "Conta criada com sucesso!");
+                              }else{
+                                print(result.success);
+                                print(result.message);
+                                setState(()=> error = result.message);
+                              }
+
+                              loading = false;
+                            }
                           }
-
-                          loading = false;
+                        },
+                      ),
+                      ),
+                      
+                      SizedBox(height: 20.0),
+                      Text(
+                        error,
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize:14.0
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      FlatButton.icon(
+                        icon: Icon(Icons.person),
+                        label: Text("Login"),
+                        onPressed: (){
+                          widget.toggleView();
                         }
-                      }
-                    },
-                  ),
-                  SizedBox(height: 20.0),
-                  Text(
-                    error,
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontSize:14.0
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  FlatButton.icon(
-                    icon: Icon(Icons.person),
-                    label: Text("Login"),
-                    onPressed: (){
-                      widget.toggleView();
-                    }
-                  ),
-                ],
-              )
+                      ),
+                    ],
+                  )
+              ),
+              
           )
       ),
     );

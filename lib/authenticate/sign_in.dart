@@ -28,7 +28,7 @@ class _SignInState extends State<SignIn> {
   TextEditingController _passwordController = new TextEditingController();
 
   bool loading = false;
-  
+
   String error = "";
 
   _openConfigScreen(){
@@ -53,73 +53,95 @@ class _SignInState extends State<SignIn> {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 50.0),
+        //color: Colors.blue[50],
         child: Form(
           key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 20.0),
-              TextFormField(
-                controller: _userController,
-                  validator : (val) => val.isEmpty ? 'Usuario em branco': null,
+          child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                SizedBox(height: 50),
+                  Container(
+                    width: 150.0,
+                    height: 150.0,
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child:Image.asset('assets/img/logo.png', width: 50, height: 50.0),
+                  ),
+                  
+                  SizedBox(height: 75.0),
+                  TextFormField(
+                    controller: _userController,
+                      validator : (val) => val.isEmpty ? 'Usuario em branco': null,
 
-                decoration:  textInputDecoration.copyWith(hintText: "User"),
-              ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                controller:_passwordController,
-                decoration: textInputDecoration.copyWith(hintText: "Senha"),
-                validator : (val) => val.length < 3 ? 'A senha deve ser maior que 3 caracteres.': null,
-                obscureText: true,
+                    decoration:  textInputDecoration.copyWith(hintText: "User"),
+                  ),
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    controller:_passwordController,
+                    decoration: textInputDecoration.copyWith(hintText: "Senha"),
+                    validator : (val) => val.length < 3 ? 'A senha deve ser maior que 3 caracteres.': null,
+                    obscureText: true,
 
-              ),
+                  ),
 
-              SizedBox(height: 20.0),
-              RaisedButton(
-                child:Text("Login"),
-                onPressed: () async {
-                  if(_formKey.currentState.validate()){
-                    setState(()=> loading = true);
+                  SizedBox(height: 50.0),
 
-                    dynamic result = await _auth.signInUserJWT(_userController.text,_passwordController.text);
+                  Container(
+                    width: 100.0,
+                    height: 50.0,
+                    child:RaisedButton(
+                    child:Text("Login"),
+                    onPressed: () async {
+                      if(_formKey.currentState.validate()){
+                        setState(()=> loading = true);
 
-                    if(result==null){
-                      setState(()=> error = "Sem conexão com o servidor!");
-                      setState(()=> loading = false);
-                    }else{
-                      if(result.success){
-                        setState(()=> error = "Vamos Lá!");
+                        dynamic result = await _auth.signInUserJWT(_userController.text,_passwordController.text);
 
-                        widget.setUser(result.message);
+                        if(result==null){
+                          setState(()=> error = "Sem conexão com o servidor!");
+                          setState(()=> loading = false);
+                        }else{
+                          if(result.success){
+                            setState(()=> error = "Vamos Lá!");
 
-                      }else{
-                        setState(()=> error = result.message);
+                            widget.setUser(result.message);
+
+                          }else{
+                            setState(()=> error = result.message);
+                          }
+
+                          setState(()=> loading = false);
+                        }
                       }
-
-                      setState(()=> loading = false);
+                    },
+                  ),
+                  ),
+                  
+                  SizedBox(height: 20.0),
+                  Text(
+                    error,
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize:14.0
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
+                  FlatButton.icon(
+                    icon: Icon(Icons.person),
+                    label: Text("Criar conta"),
+                    onPressed: (){
+                     widget.toggleView();
                     }
-                  }
-                },
-              ),
-              SizedBox(height: 20.0),
-              Text(
-                error,
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize:14.0
-                ),
-              ),
-              SizedBox(height: 20.0),
-              FlatButton.icon(
-                icon: Icon(Icons.person),
-                label: Text("Criar conta"),
-                onPressed: (){
-                 widget.toggleView();
-                }
-              ),
-            ],
-          )
+                  ),
+                ],
+              )
+          ),
+
+
         )
       ),
     );

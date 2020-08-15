@@ -55,16 +55,26 @@ class _ConfigsState extends State<Configs> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: 20.0),
+                Row(
+                  children:[
+                    Text(_auth.HttpString , style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+                    SizedBox(width:10),
+                    Container(
+                      width: 150,
+                      child: TextFormField(
+                        controller: _ipController,
+                          validator : (val) => val.isEmpty ? 'Digite o ip do servidor': null,
 
-              	Text(_auth.HttpString),
-	              TextFormField(
-	                controller: _ipController,
-	                  validator : (val) => val.isEmpty ? 'Digite o ip do servidor': null,
-
-	                decoration:  textInputDecoration.copyWith(hintText: "User"),
-	              ),
-	              Text(_auth.Port),
+                        decoration:  textInputDecoration.copyWith(hintText: "Ip"),
+                      ),
+                    ),
+                    SizedBox(width:10),
+                    Text(_auth.Port , style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              	
+	              
+	              
 
               SizedBox(height: 20.0),
 

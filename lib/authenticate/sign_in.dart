@@ -66,9 +66,7 @@ class _SignInState extends State<SignIn> {
               TextFormField(
                 controller: _userController,
                   validator : (val) => val.isEmpty ? 'Usuario em branco': null,
-                  onChanged: (val){
-                    //setState(() => _user = val);
-                  },
+
                 decoration:  textInputDecoration.copyWith(hintText: "User"),
               ),
               SizedBox(height: 20.0),
@@ -77,9 +75,7 @@ class _SignInState extends State<SignIn> {
                 decoration: textInputDecoration.copyWith(hintText: "Senha"),
                 validator : (val) => val.length < 3 ? 'A senha deve ser maior que 3 caracteres.': null,
                 obscureText: true,
-                onChanged: (val){
-                  //setState(() => password = val);
-                },
+
               ),
 
               SizedBox(height: 20.0),
@@ -97,8 +93,6 @@ class _SignInState extends State<SignIn> {
                     }else{
                       if(result.success){
                         setState(()=> error = "Vamos Lá!");
-                        //_auth.storeJwt(result.message);
-                        //_WrapperState wr = Provider.of<_WrapperState>(context);
 
                         widget.setUser(result.message);
 

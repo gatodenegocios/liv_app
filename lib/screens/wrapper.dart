@@ -9,9 +9,6 @@ import 'package:liv_app/services/auth.dart';
 
 class Wrapper extends StatefulWidget {
 
-  //final Function toggleView;
-
-  //SignIn({this.toggleView});
 
   @override
   _WrapperState createState() => _WrapperState();
@@ -21,21 +18,11 @@ class Wrapper extends StatefulWidget {
 class _WrapperState extends State<Wrapper> {
 
   AuthService _auth;
-  bool authenticated = false;
-
-  //void toggleView(){
-  //  setState(() => showSignIn = !showSignIn);
-  //}
-
-  //void setAuthenticated(bool b){
-  //  setState(() => authenticated = b);
-  //}
 
   void setUser  (String message) async{
     setState((){
       dynamic user = _auth.setUser(message);
     });
-  //  setAuthenticated(await user!=null);
   }
 
   void logout(){
@@ -60,19 +47,12 @@ class _WrapperState extends State<Wrapper> {
 
     
     if(_auth.localUser != null){
-      //return Account();
-      //return Provider<AuthService>.value(
-      //  value: _auth,
-      //  child: Account(user : _auth.getUser()),
-      //);
 
       return Account(logout:logout);
     }else{
-      //return Authenticate();
-      //return Provider<_WrapperState>.value(
-      //  value: this,
+
       return Authenticate(setUser : setUser);
-      //);
+
     }
     
   }

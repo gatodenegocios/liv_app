@@ -20,12 +20,6 @@ class AuthService{
   String SERVER_IP = '192.168.0.5';
   String Port = ":3000";
 
-  //aith change user stream
-
-  //Stream<User> get user{
-  //  return _user;//_auth.onAuthStateChanged.map(_userFromFirebaseUser);
-  //}
-
   User getUser(){
     return localUser;
   }
@@ -46,8 +40,6 @@ class AuthService{
 
   Future<Response> testConection(String ipTest) async {
 
-
-    //print("$HttpString$ipTest$Port/test-conection");
     try{
       var res = await http.post(
         "$HttpString$ipTest$Port/test-conection",
@@ -55,15 +47,9 @@ class AuthService{
           "test":"test"
         }
       );
-      print("$HttpString$SERVER_IP$Port/test-conection");
-      print("fejoada");
-      print(res.body);
 
       Response response = Response.fromJson(json.decode(res.body));
-      print(response);
 
-
-      print(await response);
 
       if(response.success){
         SetIp(ipTest);
@@ -83,8 +69,6 @@ class AuthService{
       var res = await http.post(
         "$HttpString$SERVER_IP$Port/sign-up",
         body: {
-          //"email": email,
-          //"last_email_check": email,
           "user": user,
           "password": password,
         }
@@ -93,8 +77,6 @@ class AuthService{
     }catch(e){
         return null;
     }
-
-    //print(res.body);
 
     
   }
@@ -116,13 +98,7 @@ class AuthService{
     }catch(e) {
      return null;
     }
-    //print(res.body)
-    //print(res.body);
 
-
-//    if(res.statusCode == 200) return Response.fromJson(json.decode(res.body));
-
-    //return null;
   }
 
   Future<Response> transfer( String userTo, double value, String password) async {
@@ -149,9 +125,9 @@ class AuthService{
 
   }
 
-  Future<Response> updateValue() async { print("vamo tenta");
+  Future<Response> updateValue() async { 
 
-  print("enviando");
+
     try{
 
       var res = await http.post(
@@ -161,17 +137,7 @@ class AuthService{
           "user": getUser().user,
         }
       );
-      /*
-      print("enviado");
 
-      Response response = Response.fromJson(json.decode(res.body));
-
-      print("enviei");
-
-      if(response.success){print("deu boia");
-        localUser.value = double.parse(response.message);
-      }else{ print("deu ruim");}
-      */
 
       return Response.fromJson(json.decode(res.body));
     
@@ -182,9 +148,9 @@ class AuthService{
 
   }
 
-  Future<Response> updateTransactions() async { print("vamo tenta");
+  Future<Response> updateTransactions() async {
 
-  print("enviando");
+
     try{
 
       var res = await http.post(
@@ -198,7 +164,7 @@ class AuthService{
       return Response.fromJson(json.decode(res.body));
     
     }catch(e) {
-      print(e);
+
      return null;
     }
 
@@ -209,18 +175,10 @@ class AuthService{
 
   void storeJwt(String token) async {
 
-    await storage.write(key: 'jwt', value: token);//,jwt['name'],jwt['email'],token
+    await storage.write(key: 'jwt', value: token);
 
     String value = await storage.read(key: 'jwt');
 
-    //setState(()=> _user = User.fromMap(parseJwtPayLoad(value))) ;
-
-    //setState(() {
-    
-    //});
-
-    //var jwt = parseJwt(token);
-    //print(value);
 
 
   }

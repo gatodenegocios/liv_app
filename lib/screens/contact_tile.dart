@@ -57,7 +57,6 @@ class _ContactTileState extends State<ContactTile> {
   }
 
   void _openTransferScreen(String _user) {
-  		print(_user + "uaa");
     	Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FormTransfer( user: _user, functionUpdate: widget._updateAll) ));
   }
 

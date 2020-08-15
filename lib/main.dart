@@ -21,23 +21,10 @@ class MyApp extends StatelessWidget{
     return Provider(
       create: (_) => AuthService(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false
         home: Wrapper(),
       ),
     );
   }
-
-  /*
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Liv App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Account(),
-    );
-  }*/
 }
 

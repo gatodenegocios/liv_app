@@ -56,20 +56,16 @@ class _ConfigsState extends State<Configs> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 20.0),
-              //Row(
-              	//children:[
-              	  Text(_auth.HttpString),
+
+              	Text(_auth.HttpString),
 	              TextFormField(
 	                controller: _ipController,
 	                  validator : (val) => val.isEmpty ? 'Digite o ip do servidor': null,
-	                  onChanged: (val){
-	                    //setState(() => _user = val);
-	                  },
+
 	                decoration:  textInputDecoration.copyWith(hintText: "User"),
 	              ),
 	              Text(_auth.Port),
-              	//]
-              //),
+
               SizedBox(height: 20.0),
 
               RaisedButton(
@@ -96,13 +92,6 @@ class _ConfigsState extends State<Configs> {
               ),
               SizedBox(height: 20.0),
               _getStateTest(),
-              /*Text(
-                error,
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize:14.0
-                ),
-              ),*/
             ],
           )
         )

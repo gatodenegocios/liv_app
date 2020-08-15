@@ -18,14 +18,9 @@ class FormTransfer extends StatefulWidget {
 
 }
 
-// Define a corresponding State class.
-// This class holds data related to the form.
+
 class FormTransferState extends State<FormTransfer> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a `GlobalKey<FormState>`,
-  // not a GlobalKey<FormTransferState>.
+
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _controller;
@@ -68,9 +63,7 @@ class FormTransferState extends State<FormTransfer> {
 	            TextFormField(
 	            	controller: _controller,
 	                validator : (val) => val.isEmpty ? 'Usuario em branco': null,
-	                onChanged: (val){
-	                  //setState(() => _user = val);
-	                },
+
 	            	decoration: const InputDecoration(
 					    icon: Icon(Icons.person),
 					    labelText: 'User',

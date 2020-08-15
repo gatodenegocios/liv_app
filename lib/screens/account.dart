@@ -43,13 +43,9 @@ class _AccountState extends State<Account> {
       borderRadius: BorderRadius.all(Radius.circular(1.0))),
       child: Container(
         decoration: BoxDecoration(
-          /*gradient: RadialGradient(
-            colors: [Color(0xFF015FFF), Color(0xFF015FFF)]
-          )*/
           color: Colors.green[900],
         ),
         padding: EdgeInsets.symmetric(vertical: 5.0),
-        // color: Color(0xFF015FFF),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
@@ -103,18 +99,13 @@ class _AccountState extends State<Account> {
     if(await response != null){
       if(await response.success){
         _auth.localUser.updateFromMap(response.message);
-        //print(widget.user.value);
-      }else{
-        print("puts, deu false");
       }
 
       
       setState((){
         moneyController.updateValue(_auth.localUser.value);
-      });//  
-    }else{ print("deu ruim");}
-
-    //requisição 
+      });
+    } 
     
   }
 
@@ -123,24 +114,15 @@ class _AccountState extends State<Account> {
     hasUpdate = true;
 
     if(await response != null){
-      if(await response.success){print("puts, deu true");
-//        widget.user.updateFromMap(response.message);
+      if(await response.success){
         setState((){
           TransferTileList.clear();
         });
-        //for(int i = 0; i < response.message.length; i++){
-          _addContactTile(response.message);
-        //}
-      }else{
-        print("puts, deu false");
-      }
-
-      
-      
-    }else{ print("deu ruim");}
-
-    //requisição 
-    
+        
+        _addContactTile(response.message);
+        
+      } 
+    }
   }
 
   Widget _getTransactionsList(){
@@ -157,19 +139,7 @@ class _AccountState extends State<Account> {
     }
   }
 
-  @override
-  void initState(){
-    super.initState();
 
-    //_salutation = "Bem vindo, "+ widget.user.user + "!";
-    //_value = moneyController.updateValue(widget.user.value);
-    //_value = widget.user.value;
-    //setState((){
-    //  moneyController.updateValue(widget.user.value);
-    //});
-
-    //_updateAll();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,14 +152,12 @@ class _AccountState extends State<Account> {
       moneyController.updateValue(_auth.localUser.value);
     });
 
-    //String salutation = "Bem vindo, "+ widget.user.user + "!";
-    //String value = "Bem vindo, "+ widget.user.user + "!";
 
     return Scaffold(
       drawer: AppDrawer(logout:widget.logout),
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.blue, //change your color here
+          color: Colors.blue, 
         ),
         backgroundColor: Colors.white,
         elevation: 0.0,

@@ -24,14 +24,9 @@ class TransferConfirm extends StatefulWidget {
 
 }
 
-// Define a corresponding State class.
-// This class holds data related to the form.
+
 class TransferConfirmState extends State<TransferConfirm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a `GlobalKey<FormState>`,
-  // not a GlobalKey<FormTransferState>.
+
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _controller;
@@ -60,7 +55,7 @@ class TransferConfirmState extends State<TransferConfirm> {
   	}
   }
 
-  //String _money = "";
+
   void _exibirDialogo() {
     showDialog(
        context:  context,
@@ -86,11 +81,7 @@ class TransferConfirmState extends State<TransferConfirm> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-     //_controller = new TextEditingController(text: widget._user);
-  }
+
 
   @override
   Widget build(BuildContext context) {

@@ -37,7 +37,7 @@ class _AccountState extends State<Account> {
 
 
   Card topArea(String money) => Card(
-    margin: EdgeInsets.symmetric(vertical: 10.0),
+    margin: EdgeInsets.only(bottom: 10.0),
     elevation: 5.0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(1.0))),
@@ -168,7 +168,7 @@ class _AccountState extends State<Account> {
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.white,
+        
         child: Column(
           children: <Widget>[
             topArea(moneyController.text),

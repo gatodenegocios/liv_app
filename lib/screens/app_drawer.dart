@@ -13,35 +13,38 @@ class AppDrawer extends StatefulWidget {
 class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 160.0,
-      child: Drawer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: FlatButton.icon(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Color(0xFF015FFF),
+    return SafeArea(
+      child: SizedBox(
+        width: 160.0,
+        child: Drawer(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: FlatButton.icon(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Color(0xFF015FFF),
+                  ),
+                  onPressed: null,
+                  label: Text("Back",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16.0,
+                          color: Colors.black)),
+                  color: Colors.black,
                 ),
-                onPressed: null,
-                label: Text("Back",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.0,
-                        color: Colors.black)),
-                color: Colors.black,
               ),
-            ),
-            buildMenuItem(Icons.exit_to_app, "SAIR DA CONTA", widget.logout,
-                opacity: 1.0, color: Color(0xFF015FFF)),
-            Divider(),
-          ],
+              buildMenuItem(Icons.exit_to_app, "SAIR DA CONTA", widget.logout,
+                  opacity: 1.0, color: Color(0xFF015FFF)),
+              Divider(),
+            ],
+          ),
         ),
-      ),
+      )
     );
+    
   }
 
   GestureDetector buildMenuItem(IconData icon, String title, Function f,

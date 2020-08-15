@@ -7,8 +7,6 @@ import 'package:liv_app/services/auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-//import 'package:liv_app/screens/account.dart';
-
 const SERVER_IP = 'https://food.api.pliffer.com.br';
 final storage = FlutterSecureStorage();
 
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget{
     return Provider(
       create: (_) => AuthService(),
       child: MaterialApp(
-        debugShowCheckedModeBanner: false
+        debugShowCheckedModeBanner: false,
         home: Wrapper(),
       ),
     );

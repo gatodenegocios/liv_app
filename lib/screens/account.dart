@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:liv_app/models/user.dart';
 import 'package:liv_app/screens/app_drawer.dart';
-import 'package:liv_app/screens/transfer_history.dart';
+
 import 'package:liv_app/screens/contact_tile.dart';
 import 'package:liv_app/screens/transfer_screen.dart';
 import 'package:liv_app/services/auth.dart';

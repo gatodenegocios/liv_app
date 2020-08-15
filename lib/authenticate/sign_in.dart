@@ -28,10 +28,7 @@ class _SignInState extends State<SignIn> {
   TextEditingController _passwordController = new TextEditingController();
 
   bool loading = false;
-
-  String email = "";
-  String password = "";
-
+  
   String error = "";
 
   _openConfigScreen(){

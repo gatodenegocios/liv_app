@@ -113,8 +113,16 @@ class TransferConfirmState extends State<TransferConfirm> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  child:Text(userFrom, style: TextStyle(fontSize: 20.0)),
-                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  height:50,
+                  child: Row(children:[
+                    Icon(Icons.person),
+                    Container(
+                      child:Text(userFrom, style: TextStyle(fontSize: 20.0)),
+                      margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    ),
+                  ]),
                 ),
               ),
               SizedBox(height:20),
@@ -126,8 +134,16 @@ class TransferConfirmState extends State<TransferConfirm> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  child:Text(widget._userTo, style: TextStyle(fontSize: 20.0)),
-                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  height:50,
+                  child: Row(children:[
+                    Icon(Icons.person),
+                    Container(
+                      child:Text(widget._userTo, style: TextStyle(fontSize: 20.0)),
+                      margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    ),
+                  ]),
                 ),
               ),
               SizedBox(height:20),
@@ -139,8 +155,16 @@ class TransferConfirmState extends State<TransferConfirm> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  child:Text(moneyController.text, style: TextStyle(fontSize: 20.0)),
-                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  height:50,
+                  child: Row(children:[
+                    Icon(Icons.person),
+                    Container(
+                      child:Text(moneyController.text, style: TextStyle(fontSize: 20.0)),
+                      margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    ),
+                  ]),
                 ),
               ),
               SizedBox(height:20),

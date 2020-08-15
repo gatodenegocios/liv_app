@@ -44,16 +44,11 @@ class FormTransferState extends State<FormTransfer> {
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.blue, //change your color here
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0.0,
+        
         title: Text(
           "Nova transferencia",
-          style: TextStyle(color: Colors.black),
+
         ),
-        centerTitle: true,
 		),
       body: Container(
     	child: Form(

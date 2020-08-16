@@ -111,9 +111,10 @@ class _AccountState extends State<Account> {
 
   void _updateTransactions() async {
     dynamic response = await _auth.updateTransactions();
-    hasUpdate = true;
+    
 
     if(await response != null){
+      hasUpdate = true;
       if(await response.success){
         setState((){
           TransferTileList.clear();

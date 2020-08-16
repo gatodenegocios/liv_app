@@ -24,6 +24,7 @@ class _RegisterState extends State<Register> {
 
   TextEditingController _userController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
+  
 
   bool loading = false;
 

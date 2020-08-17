@@ -53,53 +53,54 @@ class FormTransferState extends State<FormTransfer> {
       body: Container(
     	child: Form(
 	      key: _formKey,
-	      child: Column(
+	      child: SingleChildScrollView(
+	      	child:Column(
 	        children: <Widget>[
-	            TextFormField(
-	            	controller: _controller,
-	                validator : (val) => val.isEmpty ? 'Usuario em branco': null,
+		            TextFormField(
+		            	controller: _controller,
+		                validator : (val) => val.isEmpty ? 'Usuario em branco': null,
 
-	            	decoration: const InputDecoration(
-					    icon: Icon(Icons.person),
-					    labelText: 'User',
+		            	decoration: const InputDecoration(
+						    icon: Icon(Icons.person),
+						    labelText: 'User',
+						),
+		          	),
+		            SizedBox(
+		              height: 30.0,
+		            ),
+		          	TextFormField(
+		          		controller: moneyController,
+		                validator : (val) => _money <= 0  ? 'Insira um valor valido!': null,
+
+		            	decoration: const InputDecoration(
+						    icon: Icon(Icons.attach_money),
+						    labelText: 'Valor:',
+						),
+
+						onChanged: (val){
+	                  		_money = moneyController.numberValue;
+	                	},
+						keyboardType: TextInputType.number,
+		          	),
+		          	SizedBox(
+		              height: 30.0,
+		            ),
+		          	RaisedButton(
+					  onPressed: (){
+					    if (_formKey.currentState.validate()) {
+					    	_openConfirmScreen(_controller.text,moneyController.numberValue);
+					  	}
+					  },
+					  child: Text('Transferir'),
 					),
-	          	),
-	            SizedBox(
-	              height: 30.0,
-	            ),
-	          	TextFormField(
-	          		controller: moneyController,
-	                validator : (val) => _money <= 0  ? 'Insira um valor valido!': null,
-
-	            	decoration: const InputDecoration(
-					    icon: Icon(Icons.attach_money),
-					    labelText: 'Valor:',
-					),
-
-					onChanged: (val){
-                  		_money = moneyController.numberValue;
-                	},
-					keyboardType: TextInputType.number,
-	          	),
-	          	SizedBox(
-	              height: 30.0,
-	            ),
-	          	RaisedButton(
-				  onPressed: (){
-				    if (_formKey.currentState.validate()) {
-				    	_openConfirmScreen(_controller.text,moneyController.numberValue);
-				  	}
-				  },
-				  child: Text('Transferir'),
-				),
-	        ]
-	     )
+		        ]
+		     	)
+	      	),
+	      
 	    ),
     	margin: const EdgeInsets.all(10.0),
        ),
     );
-
-
     
 
     

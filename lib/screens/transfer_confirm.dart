@@ -103,8 +103,9 @@ class TransferConfirmState extends State<TransferConfirm> {
     	body: Container(
 	    	child: Form(
 		      key: _formKey,
-		      child: Column(
-		        children: <Widget>[
+		      child: SingleChildScrollView(
+            child: Column(
+            children: <Widget>[
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text("De:", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold))
@@ -168,43 +169,45 @@ class TransferConfirmState extends State<TransferConfirm> {
                 ),
               ),
               SizedBox(height:20),
-		        	Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Confirme sua senha:", style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold))
               ),
               SizedBox(height:20),
-		        	TextFormField(
-		                controller:_passwordController,
-		                validator : (val) => val.length < 3 ? 'A senha deve ser maior que 3 caracteres.': null,
-		                obscureText: true,
+              TextFormField(
+                    controller:_passwordController,
+                    validator : (val) => val.length < 3 ? 'A senha deve ser maior que 3 caracteres.': null,
+                    obscureText: true,
                     decoration: textInputDecoration.copyWith(hintText: "Senha"),
-		            ),
+                ),
               SizedBox(height:20),
-		          RaisedButton(
-					     onPressed: () async {
-					       if (_formKey.currentState.validate()) {
-					    	    setState(()=> loading = true);
-					    	    dynamic result = await _auth.transfer(widget._userTo,moneyController.numberValue,_passwordController.text);
+              RaisedButton(
+               onPressed: () async {
+                 if (_formKey.currentState.validate()) {
+                    setState(()=> loading = true);
+                    dynamic result = await _auth.transfer(widget._userTo,moneyController.numberValue,_passwordController.text);
 
-					    	    _exibirDialogo();
-		                if (result==null){
-		                  setState(()=> stateTransaction = "Sem conexão com o servidor!");
-		                  setState(()=> loading = false);
-		                }else{
-		                  setState((){
-		                 	correct =result.success;
-		                 	stateTransaction = result.message;
-		                 	loading = false;
-		                });
+                    _exibirDialogo();
+                    if (result==null){
+                      setState(()=> stateTransaction = "Sem conexão com o servidor!");
+                      setState(()=> loading = false);
+                    }else{
+                      setState((){
+                      correct =result.success;
+                      stateTransaction = result.message;
+                      loading = false;
+                    });
 
-					  		    widget._updateAll();
-					  		 }
-					  	}
-					  },
-					  child: Text('Confirmar'),
-					),
-		        ]
-		     )
+                    widget._updateAll();
+                    }
+                }
+              },
+            child: Text('Confirmar'),
+              ),
+            ]
+         )
+          ),
+          
 		    ),
 	    	margin: const EdgeInsets.all(10.0),
 	    ),
